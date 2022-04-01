@@ -1,17 +1,12 @@
 import { Author } from "../Models/Author";
 import * as fs from "fs";
-import * as https from "https";
-
-import { AUTHORS_LOCATION } from "../constants";
 
 export class AuthorService {
     private static _instance: AuthorService;
 
     private authors: Author[];
-    private fileLocation: string
 
     private constructor() {
-        this.fileLocation = AUTHORS_LOCATION;
         this._importAuthors();
     }
 

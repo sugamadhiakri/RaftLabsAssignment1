@@ -1,6 +1,5 @@
 import { Magazine } from "../Models/Magazine";
 import * as fs from "fs";
-import * as https from "https";
 import { AuthorService } from "./AuthorService";
 import { Author } from "../Models/Author";
 
@@ -8,8 +7,7 @@ export class MagazineService {
     private static _instance: MagazineService;
 
     private magazines: Magazine[];
-    private fileLocation: string
-    private authorService: AuthorService
+    private authorService: AuthorService;
 
     private constructor() {
         this.authorService = AuthorService.instance;
@@ -59,8 +57,8 @@ export class MagazineService {
     }
 
     public getAllMagazines(): Magazine[] {
-        const booksCopy = this.magazines.map(book => book);
-        return booksCopy;
+        const magazinesCopy = this.magazines.map(magazine => magazine);
+        return magazinesCopy;
     }
 
     public getMagazinesByAuthorEmail(email: string) {

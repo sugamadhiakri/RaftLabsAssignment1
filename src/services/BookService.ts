@@ -1,6 +1,5 @@
 import { Book } from "../Models/Book";
 import * as fs from "fs";
-import * as https from "https";
 import { AuthorService } from "./AuthorService";
 import { Author } from "../Models/Author";
 
@@ -8,8 +7,7 @@ export class BookService {
     private static _instance: BookService;
 
     private books: Book[];
-    private fileLocation: string
-    private authorService: AuthorService
+    private authorService: AuthorService;
 
     private constructor() {
         this.authorService = AuthorService.instance;
