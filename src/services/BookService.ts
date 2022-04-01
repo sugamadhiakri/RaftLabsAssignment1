@@ -46,14 +46,14 @@ export class BookService {
             });
 
 
-            const Book: Book = {
+            const book: Book = {
                 title: elements[0],
                 isbn: elements[1],
                 authors: authors,
                 description: elements[3]
             }
 
-            this.books.push(Book);
+            this.books.push(book);
         }
 
     }
