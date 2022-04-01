@@ -1,5 +1,8 @@
 import { Author } from "../Models/Author";
 import * as fs from "fs";
+import * as https from "https";
+
+import { AUTHORS_LOCATION } from "../constants";
 
 export class AuthorService {
     private static _instance: AuthorService;
@@ -8,7 +11,7 @@ export class AuthorService {
     private fileLocation: string
 
     private constructor() {
-        this.fileLocation = "\\src\\data\\authors.csv";
+        this.fileLocation = AUTHORS_LOCATION;
         this._importAuthors();
     }
 
@@ -21,8 +24,32 @@ export class AuthorService {
         return AuthorService._instance;
     }
 
-    private _importAuthors() {
-        const data = fs.readFileSync(this.fileLocation);
-        console.log(data);
+    private async _importAuthors() {
+
+        const data: string = fs.readFileSync("./Data/Authors.csv").toString();
+
+        // split by new line
+        const all: string[] = data.split("\n");
+
+        for (let i = 1; i < all.length; i++) {
+            const row: string = all[i];
+            const elements: string[] = row.split(",");
+            const author: Author = {
+                email: elements[0],
+                firstName: elements[1],
+                lastName: elements[2]
+            }
+
+            this.authors.push(author);
+        }
+    }
+
+    public getAuthorByEmail(email: string) {
+
+        this.authors.forEach(author => {
+            if (author.email === email) return author;
+        });
+
+        return null;
     }
 }
