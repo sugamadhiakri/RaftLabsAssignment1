@@ -1,6 +1,6 @@
 import { Author } from "../Models/Author";
 import * as fs from "fs";
-import { listenerCount } from "process";
+import { exit, listenerCount } from "process";
 
 export class AuthorService {
     private static _instance: AuthorService;
@@ -39,16 +39,18 @@ export class AuthorService {
 
             this.authors.push(author);
         }
-        console.log(this.authors);
     }
 
     public getAuthorByEmail(email: string) {
+        let authorByEmail: Author = null;
 
         this.authors.forEach(author => {
-            if (author.email === email) return author;
+            if (author.email === email) {
+                authorByEmail = author;
+                return;
+            }
         });
-
-        return null;
+        return authorByEmail;
     }
 
     public toStringAuthors(authors: Author[]) {
