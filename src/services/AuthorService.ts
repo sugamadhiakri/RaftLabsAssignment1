@@ -8,6 +8,7 @@ export class AuthorService {
     private authors: Author[];
 
     private constructor() {
+        this.authors = [];
         this._importAuthors();
     }
 
@@ -34,7 +35,7 @@ export class AuthorService {
                 email: elements[0],
                 firstName: elements[1],
                 lastName: elements[2]
-            }
+            };
 
             this.authors.push(author);
         }

@@ -35,7 +35,7 @@ export class ReadableService {
         const sortedBooksAndMagazines = this.readables.sort((s1, s2) => {
             if (s1 > s2) return 1;
             if (s1 < s2) return -1;
-            return 0
+            return 0;
         });
 
         return sortedBooksAndMagazines;

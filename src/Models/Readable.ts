@@ -1,4 +1,4 @@
 export interface Readable {
-    title: string
-    isbn: string
+    title: string;
+    isbn: string;
 }

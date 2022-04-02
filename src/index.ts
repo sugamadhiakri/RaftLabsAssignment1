@@ -1,4 +1,3 @@
-import * as http from "http";
 import { AuthorService } from "./services/AuthorService";
 import { BookService } from "./services/BookService";
 import { MagazineService } from "./services/MagazineService";

@@ -10,6 +10,7 @@ export class MagazineService {
     private authorService: AuthorService;
 
     private constructor() {
+        this.magazines = [];
         this.authorService = AuthorService.instance;
         this._importMagazines();
     }
@@ -37,19 +38,16 @@ export class MagazineService {
 
             // add the authors
             const emails: string[] = elements[2].split(",");
-            const authors: Author[] = []
-            emails.forEach(email => {
-                const author: Author = this.authorService.getAuthorByEmail(email);
-                authors.push(author);
+            const authors: Author[] = emails.map((email: string) => {
+                return this.authorService.getAuthorByEmail(email);
             });
-
 
             const magazine: Magazine = {
                 title: elements[0],
                 isbn: elements[1],
                 authors: authors,
                 publishedAt: elements[3]
-            }
+            };
 
             this.magazines.push(magazine);
         }
@@ -65,6 +63,10 @@ export class MagazineService {
     }
 
     public getAllMagazines(): Magazine[] {
+        if (!this.magazines) {
+            console.log("Magazines is empty.");
+            return null;
+        }
         const magazinesCopy = this.magazines.map(magazine => magazine);
         return magazinesCopy;
     }
@@ -75,7 +77,7 @@ export class MagazineService {
             let hasAuthor = false;
             authors.forEach(author => {
                 if (author.email === email)
-                    hasAuthor = true
+                    hasAuthor = true;
             });
             return hasAuthor;
         });

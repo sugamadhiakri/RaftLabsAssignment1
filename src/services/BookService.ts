@@ -10,6 +10,7 @@ export class BookService {
     private authorService: AuthorService;
 
     private constructor() {
+        this.books = [];
         this.authorService = AuthorService.instance;
         this._importBooks();
     }
@@ -34,26 +35,22 @@ export class BookService {
         for (let i = 1; i < all.length; i++) {
             const row: string = all[i];
             const elements: string[] = row.split(";");
-
             // add the authors
             const emails: string[] = elements[2].split(",");
-            const authors: Author[] = []
-            emails.forEach(email => {
-                const author: Author = this.authorService.getAuthorByEmail(email);
-                authors.push(author);
-            });
 
+            const authors: Author[] = emails.map((email: string) => {
+                return this.authorService.getAuthorByEmail(email);
+            });
 
             const book: Book = {
                 title: elements[0],
                 isbn: elements[1],
                 authors: authors,
                 description: elements[3]
-            }
+            };
 
             this.books.push(book);
         }
-
     }
 
     private _updateDatabase(book: Book) {
@@ -66,6 +63,11 @@ export class BookService {
 
 
     public getAllBooks(): Book[] {
+        if (!this.books) {
+            console.log("No Books available.");
+            return null;
+        }
+
         const booksCopy = this.books.map(book => book);
         return booksCopy;
     }
@@ -76,7 +78,7 @@ export class BookService {
             let hasAuthor = false;
             authors.forEach(author => {
                 if (author.email === email)
-                    hasAuthor = true
+                    hasAuthor = true;
             });
             return hasAuthor;
         });
