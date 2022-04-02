@@ -15,11 +15,7 @@ export class ReadableService {
     private constructor() {
         this.bookService = BookService.instance;
         this.magazineService = MagazineService.instance;
-
-        // Setup readables
-        const books: Book[] = this.bookService.getAllBooks();
-        const magazines: Magazine[] = this.magazineService.getAllMagazines();
-        this.readables = [...books, ...magazines];
+        this.readables = [];
     }
 
     public static get instance(): ReadableService {
@@ -31,6 +27,10 @@ export class ReadableService {
     }
 
     public getBooksAndMagazineSortedByTitle() {
+        // Setup readables
+        const books: Book[] = this.bookService.getAllBooks();
+        const magazines: Magazine[] = this.magazineService.getAllMagazines();
+        this.readables = [...books, ...magazines];
 
         const sortedBooksAndMagazines = this.readables.sort((s1, s2) => {
             if (s1.title.toLocaleLowerCase() > s2.title.toLocaleLowerCase()) return 1;

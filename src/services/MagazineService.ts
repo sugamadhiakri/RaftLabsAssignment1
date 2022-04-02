@@ -113,7 +113,7 @@ export class MagazineService {
             return;
         }
 
-        if (!!title && !!isbn && !!publishedAt && !!authors) {
+        if (!title || !isbn || !publishedAt || !authors) {
             console.log("Add failed because invalid input");
             return;
         }

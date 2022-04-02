@@ -115,7 +115,7 @@ export class BookService {
             return;
         }
 
-        if (!!title && !!isbn && !!description && !!authors) {
+        if (!title || !isbn || !description || !authors) {
             console.log("Add failed because invalid input");
             return;
         }
