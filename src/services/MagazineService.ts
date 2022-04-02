@@ -56,6 +56,14 @@ export class MagazineService {
 
     }
 
+    private _updateDatabase(magazine: Magazine) {
+        const authors = this.authorService.toStringAuthors(magazine.authors);
+
+        const magazineString = magazine.title + ";" + magazine.isbn + ";" + authors + ";" + magazine.publishedAt;
+
+        fs.writeFileSync("./Data/Magazine.csv", magazineString);
+    }
+
     public getAllMagazines(): Magazine[] {
         const magazinesCopy = this.magazines.map(magazine => magazine);
         return magazinesCopy;
@@ -73,6 +81,24 @@ export class MagazineService {
         });
 
         return magazinesByAutherEmail;
+    }
+
+    public addMagazine(title: string, isbn: string, authorEmails: string[], publishedAt: string) {
+        const authors: Author[] = [];
+        authorEmails.forEach(authorEmail => {
+            const authorObj = this.authorService.getAuthorByEmail(authorEmail);
+            authors.push(authorObj);
+        });
+
+        const magazine: Magazine = {
+            title: title,
+            isbn: isbn,
+            authors: authors,
+            publishedAt: publishedAt
+        };
+
+        this.magazines.push(magazine);
+        this._updateDatabase(magazine);
     }
 
 }

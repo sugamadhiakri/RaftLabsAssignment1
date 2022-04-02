@@ -56,6 +56,15 @@ export class BookService {
 
     }
 
+    private _updateDatabase(book: Book) {
+        const authors = this.authorService.toStringAuthors(book.authors);
+
+        const bookString = book.title + ";" + book.isbn + ";" + authors + ";" + book.description;
+
+        fs.writeFileSync("./Data/Books.csv", bookString);
+    }
+
+
     public getAllBooks(): Book[] {
         const booksCopy = this.books.map(book => book);
         return booksCopy;
@@ -75,4 +84,21 @@ export class BookService {
         return booksByAutherEmail;
     }
 
+    public addBook(title: string, isbn: string, authorEmails: string[], description: string) {
+        const authors: Author[] = [];
+        authorEmails.forEach(authorEmail => {
+            const authorObj = this.authorService.getAuthorByEmail(authorEmail);
+            authors.push(authorObj);
+        });
+
+        const book: Book = {
+            title: title,
+            isbn: isbn,
+            authors: authors,
+            description: description
+        };
+
+        this.books.push(book);
+        this._updateDatabase(book);
+    }
 }

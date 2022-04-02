@@ -1,5 +1,6 @@
 import { Author } from "../Models/Author";
 import * as fs from "fs";
+import { listenerCount } from "process";
 
 export class AuthorService {
     private static _instance: AuthorService;
@@ -46,5 +47,13 @@ export class AuthorService {
         });
 
         return null;
+    }
+
+    public toStringAuthors(authors: Author[]) {
+        let stringValue = "";
+        authors.forEach(author => {
+            stringValue += author.email + ",";
+        });
+        return stringValue.substring(0, stringValue.length - 1);
     }
 }
