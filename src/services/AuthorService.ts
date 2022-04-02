@@ -30,7 +30,7 @@ export class AuthorService {
 
         for (let i = 1; i < all.length; i++) {
             const row: string = all[i];
-            const elements: string[] = row.split(",");
+            const elements: string[] = row.split(";");
             const author: Author = {
                 email: elements[0],
                 firstName: elements[1],
@@ -39,6 +39,7 @@ export class AuthorService {
 
             this.authors.push(author);
         }
+        console.log(this.authors);
     }
 
     public getAuthorByEmail(email: string) {
