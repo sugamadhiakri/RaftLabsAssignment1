@@ -33,8 +33,8 @@ export class ReadableService {
     public getBooksAndMagazineSortedByTitle() {
 
         const sortedBooksAndMagazines = this.readables.sort((s1, s2) => {
-            if (s1 > s2) return 1;
-            if (s1 < s2) return -1;
+            if (s1.title.toLocaleLowerCase() > s2.title.toLocaleLowerCase()) return 1;
+            if (s1.title.toLocaleLowerCase() < s2.title.toLocaleLowerCase()) return -1;
             return 0;
         });
 
