@@ -41,5 +41,11 @@ export class ReadableService {
         return sortedBooksAndMagazines;
     }
 
+    public getBookAndMagazineByAuthorEmail(email: string) {
+        const booksByAuthorEmail = this.bookService.getBooksByAuthorEmail(email);
+        const magazinesByAuthorEmail = this.magazineService.getMagazinesByAuthorEmail(email);
+
+        return [...booksByAuthorEmail, ...magazinesByAuthorEmail];
+    }
 
 }
