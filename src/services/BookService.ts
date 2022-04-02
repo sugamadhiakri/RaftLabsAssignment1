@@ -84,6 +84,14 @@ export class BookService {
         return booksByAutherEmail;
     }
 
+    public getBooksByIsbn(isbn: string) {
+        const booksByIsbn: Book[] = this.books.filter(book => {
+            return book.isbn === isbn;
+        });
+
+        return booksByIsbn;
+    }
+
     public addBook(title: string, isbn: string, authorEmails: string[], description: string) {
         const authors: Author[] = [];
         authorEmails.forEach(authorEmail => {

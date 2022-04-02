@@ -70,8 +70,8 @@ export class MagazineService {
     }
 
     public getMagazinesByAuthorEmail(email: string) {
-        const magazinesByAutherEmail: Magazine[] = this.magazines.filter(book => {
-            const authors = book.authors;
+        const magazinesByAutherEmail: Magazine[] = this.magazines.filter(magazine => {
+            const authors = magazine.authors;
             let hasAuthor = false;
             authors.forEach(author => {
                 if (author.email === email)
@@ -81,6 +81,14 @@ export class MagazineService {
         });
 
         return magazinesByAutherEmail;
+    }
+
+    public getMagazinesByIsbn(isbn: string) {
+        const magazinesByIsbn: Magazine[] = this.magazines.filter(magazine => {
+            return isbn === magazine.isbn;
+        });
+
+        return magazinesByIsbn;
     }
 
     public addMagazine(title: string, isbn: string, authorEmails: string[], publishedAt: string) {
