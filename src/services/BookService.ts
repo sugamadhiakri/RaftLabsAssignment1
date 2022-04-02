@@ -2,6 +2,7 @@ import { Book } from "../Models/Book";
 import * as fs from "fs";
 import { AuthorService } from "./AuthorService";
 import { Author } from "../Models/Author";
+import { title } from "process";
 
 export class BookService {
     private static _instance: BookService;
@@ -94,12 +95,30 @@ export class BookService {
         return booksByIsbn;
     }
 
-    public addBook(title: string, isbn: string, authorEmails: string[], description: string) {
-        const authors: Author[] = [];
-        authorEmails.forEach(authorEmail => {
-            const authorObj = this.authorService.getAuthorByEmail(authorEmail);
-            authors.push(authorObj);
-        });
+    public addBook(bookcsv: string) {
+        const bookDetail = bookcsv.split(";");
+        const title = bookDetail[0];
+        const isbn = bookDetail[1];
+        const description = bookDetail[3];
+        const authorEmails = bookDetail[2].split(",");
+        let authors: Author[];
+        try {
+            authors = authorEmails.map(email => {
+                const author: Author = this.authorService.getAuthorByEmail(email);
+                if (!author) {
+                    throw new Error("Aurhor Does Not exist");
+                }
+                return author;
+            });
+        } catch (err) {
+            console.log(err.message());
+            return;
+        }
+
+        if (!!title && !!isbn && !!description && !!authors) {
+            console.log("Add failed because invalid input");
+            return;
+        }
 
         const book: Book = {
             title: title,

@@ -93,12 +93,30 @@ export class MagazineService {
         return magazinesByIsbn;
     }
 
-    public addMagazine(title: string, isbn: string, authorEmails: string[], publishedAt: string) {
-        const authors: Author[] = [];
-        authorEmails.forEach(authorEmail => {
-            const authorObj = this.authorService.getAuthorByEmail(authorEmail);
-            authors.push(authorObj);
-        });
+    public addMagazine(bookcsv: string) {
+        const magazineDetail = bookcsv.split(";");
+        const title = magazineDetail[0];
+        const isbn = magazineDetail[1];
+        const publishedAt = magazineDetail[3];
+        const authorEmails = magazineDetail[2].split(",");
+        let authors: Author[];
+        try {
+            authors = authorEmails.map(email => {
+                const author: Author = this.authorService.getAuthorByEmail(email);
+                if (!author) {
+                    throw new Error("Aurhor Does Not exist");
+                }
+                return author;
+            });
+        } catch (err) {
+            console.log(err.message());
+            return;
+        }
+
+        if (!!title && !!isbn && !!publishedAt && !!authors) {
+            console.log("Add failed because invalid input");
+            return;
+        }
 
         const magazine: Magazine = {
             title: title,
